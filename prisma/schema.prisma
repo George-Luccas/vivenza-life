@@ -1,0 +1,245 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ... existing models ...
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  emailVerified Boolean
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  sessions      Session[]
+  accounts      Account[]
+  posts         Post[]
+  likes         Like[]
+  comments      Comment[]
+  
+  // Follows
+  followers     Follows[] @relation("following")
+  following     Follows[] @relation("follower")
+  
+  // Chat
+  conversations ConversationParticipant[]
+  messages      Message[]
+  stories       Story[]
+
+  @@map("user")
+}
+
+model Follows {
+  followerId  String
+  followingId String
+  follower    User   @relation("follower", fields: [followerId], references: [id])
+  following   User   @relation("following", fields: [followingId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@id([followerId, followingId])
+  @@map("follows")
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  expiresAt DateTime
+  token     String
+  createdAt DateTime
+  updatedAt DateTime
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id @default(cuid())
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime
+  updatedAt             DateTime
+
+  @@map("account")
+}
+
+model Verification {
+  id         String    @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@map("verification")
+}
+
+// Modelos do Domínio Vivenza Life (Baseados nas Abas)
+
+model Establishment {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  address     String?
+  category    String?
+  imageUrl    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  appointments Appointment[]
+  services     Service[]
+
+  @@map("establishment")
+}
+
+model Service {
+  id              String        @id @default(cuid())
+  name            String
+  description     String
+  price           Decimal       @db.Decimal(10, 2)
+  durationMinutes Int
+  imageUrl        String?
+  establishmentId String
+  establishment   Establishment @relation(fields: [establishmentId], references: [id])
+  appointments    Appointment[]
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@map("service")
+}
+
+model Appointment {
+  id              String        @id @default(cuid())
+  date            DateTime
+  status          String        @default("PENDING") // PENDING, CONFIRMED, CANCELLED
+  userId          String
+  establishmentId String
+  establishment   Establishment @relation(fields: [establishmentId], references: [id])
+  serviceId       String?
+  service         Service?      @relation(fields: [serviceId], references: [id])
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@map("appointment")
+}
+
+// Social Models
+
+model Post {
+  id            String    @id @default(cuid())
+  caption       String?
+  imageUrl      String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  likes         Like[]
+  comments      Comment[]
+
+  // Reposts
+  originalPostId String?
+  originalPost   Post?   @relation("Reposts", fields: [originalPostId], references: [id])
+  reposts        Post[]  @relation("Reposts")
+  
+  sharedInMessages Message[]
+
+  @@map("post")
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId])
+  @@map("like")
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@map("comment")
+}
+
+// Chat Models
+
+model Conversation {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  participants ConversationParticipant[]
+  messages     Message[]
+
+  @@map("conversation")
+}
+
+model ConversationParticipant {
+  id             String       @id @default(cuid())
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  createdAt      DateTime     @default(now())
+
+  @@unique([userId, conversationId])
+  @@map("conversation_participant")
+}
+
+model Message {
+  id             String       @id @default(cuid())
+  content        String?
+  createdAt      DateTime     @default(now())
+  isRead         Boolean      @default(false)
+  
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  
+  senderId       String
+  sender         User         @relation(fields: [senderId], references: [id], onDelete: Cascade)
+
+  sharedPostId   String?
+  sharedPost     Post?        @relation(fields: [sharedPostId], references: [id], onDelete: SetNull)
+
+  @@map("message")
+}
+
+model Story {
+  id        String   @id @default(cuid())
+  imageUrl  String
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("story")
+}
