@@ -37,10 +37,10 @@ export function StoriesList({ currentUser }: { currentUser: any }) {
                         onClick={() => handleStoryClick(idx)}
                     >
                         <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-rose-500 via-orange-500 to-yellow-500 p-[2.5px]">
-                            <div className="w-full h-full rounded-full border-2 border-background bg-muted flex items-center justify-center overflow-hidden">
+                            <Avatar className="w-full h-full border-2 border-background bg-muted flex items-center justify-center overflow-hidden">
                                 <AvatarImage src={user.image || ""} className="object-cover" />
                                 <AvatarFallback>{user.name?.[0]}</AvatarFallback>
-                            </div>
+                            </Avatar>
                         </div>
                         <span className="text-xs text-center truncate w-20 text-muted-foreground font-medium">
                             {user.name.split(' ')[0]}
