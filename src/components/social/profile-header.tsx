@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
 import { UserListDialog } from "./user-list-dialog"
+import { EditProfileDialog } from "./edit-profile-dialog"
 
 interface ProfileHeaderProps {
     user: {
@@ -62,7 +63,12 @@ export function ProfileHeader({ user, stats, followers, following }: ProfileHead
                 </div>
 
                 <div className="flex gap-2 w-full max-w-xs">
-                    <Button className="flex-1 bg-rose-500 hover:bg-rose-600 rounded-full h-8 text-sm">Editar Perfil</Button>
+                    <div className="flex-1">
+                        <EditProfileDialog 
+                            user={user} 
+                            trigger={<Button className="w-full bg-rose-500 hover:bg-rose-600 rounded-full h-8 text-sm">Editar Perfil</Button>}
+                        />
+                    </div>
                     <Button variant="outline" className="rounded-full h-8 text-sm">Compartilhar</Button>
                 </div>
             </div>
