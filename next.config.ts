@@ -14,13 +14,16 @@ const withPWA = withPWAInit({
 });
 
 const nextConfig: NextConfig = {
-  // @ts-expect-error: Config for newer Next.js versions/Vercel
   turbopack: {},
   images: {
     remotePatterns: [
       {
         protocol: 'https',
         hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.public.blob.vercel-storage.com',
       },
     ],
   },
