@@ -67,7 +67,7 @@ export function CreateStoryDialog({ trigger, open: controlledOpen, onOpenChange:
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Adicionar ao seu Story</DialogTitle>
         </DialogHeader>
