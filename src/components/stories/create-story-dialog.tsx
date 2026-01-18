@@ -27,6 +27,9 @@ export function CreateStoryDialog({ trigger, open: controlledOpen, onOpenChange:
          setControlledOpen?.(value)
      } else {
          setInternalOpen(value)
+     }
+  }
+
   const [file, setFile] = useState<File | null>(null)
   const [loading, setLoading] = useState(false)
   const [preview, setPreview] = useState<string | null>(null)
