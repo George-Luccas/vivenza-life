@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import { getUserPosts, getProfileStats, getFollowers, getFollowing } from "@/app/_actions/social";
 import { ProfileHeader } from "@/components/social/profile-header";
 import { MainLayout } from "@/components/layout/main-layout";
