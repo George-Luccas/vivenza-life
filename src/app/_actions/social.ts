@@ -4,8 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { join } from "path";
-import { writeFile, mkdir } from "fs/promises";
+import { put } from "@vercel/blob";
 
 export async function createPost(formData: FormData) {
   const session = await auth.api.getSession({
@@ -26,9 +25,23 @@ export async function createPost(formData: FormData) {
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
 
-  const mimeType = file.type || "image/jpeg";
-  const base64 = buffer.toString("base64");
-  const imageUrl = `data:${mimeType};base64,${base64}`;
+  /* 
+   * Upload to Vercel Blob
+   */
+  const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+  const filename = `posts/${session.user.id}-${uniqueSuffix}-${file.name}`;
+  
+  let imageUrl = "";
+
+  try {
+      const blob = await put(filename, file, {
+          access: 'public',
+      });
+      imageUrl = blob.url;
+  } catch (error) {
+      console.error("Error uploading post image:", error);
+      throw new Error("Failed to upload image");
+  }
 
   await prisma.post.create({
     data: {

@@ -4,8 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { join } from "path";
-import { writeFile, mkdir } from "fs/promises";
+import { put } from "@vercel/blob";
 
 export async function updateProfile(formData: FormData) {
   const session = await auth.api.getSession({
@@ -28,21 +27,16 @@ export async function updateProfile(formData: FormData) {
   // Handle new image upload if provided
   if (imageFile && imageFile.size > 0) {
       try {
-        const bytes = await imageFile.arrayBuffer();
-        const buffer = Buffer.from(bytes);
-    
-      try {
-        const bytes = await imageFile.arrayBuffer();
-        const buffer = Buffer.from(bytes);
-        const base64 = buffer.toString("base64");
-        const mimeType = imageFile.type || "image/jpeg"; // Fallback if type is missing
-        imageUrl = `data:${mimeType};base64,${base64}`;
+        const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+        const filename = `profiles/${session.user.id}-${uniqueSuffix}-${imageFile.name}`;
+        
+        const blob = await put(filename, imageFile, {
+          access: 'public',
+        });
+        
+        imageUrl = blob.url;
       } catch (error) {
-          console.error("Error converting image to base64:", error);
-          return { error: "Failed to process image" };
-      }
-      } catch (error) {
-          console.error("Error uploading image:", error);
+          console.error("Error uploading to blob:", error);
           return { error: "Failed to upload image" };
       }
   }
