@@ -5,13 +5,36 @@ import { prisma } from "@/lib/prisma"
 import { revalidatePath } from "next/cache"
 import { headers } from "next/headers"
 
-export async function createStory(imageUrl: string) {
+import { put } from "@vercel/blob"
+
+export async function createStory(formData: FormData) {
     const session = await auth.api.getSession({
         headers: await headers()
     })
 
     if (!session?.user) {
         throw new Error("Unauthorized")
+    }
+
+    const file = formData.get("imageFile") as File
+    if (!file) {
+        throw new Error("Image file is required")
+    }
+
+    let imageUrl = ""
+    
+    try {
+        const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9)
+        const filename = `stories/${session.user.id}-${uniqueSuffix}-${file.name}`
+        
+        const blob = await put(filename, file, {
+            access: 'public',
+        })
+        
+        imageUrl = blob.url
+    } catch (error) {
+        console.error("Error uploading story:", error)
+        throw new Error("Failed to upload story")
     }
 
     // Story expires in 24 hours
