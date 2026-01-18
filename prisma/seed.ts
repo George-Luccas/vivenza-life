@@ -78,6 +78,7 @@ async function main() {
       services: [
         { name: 'Botox (Toxina Botulínica)', description: 'Suavização de linhas de expressão.', price: 1200.00, durationMinutes: 30, imageUrl: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070&auto=format&fit=crop' },
         { name: 'Preenchimento Labial', description: 'Volume e contorno para os lábios.', price: 1500.00, durationMinutes: 45, imageUrl: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070&auto=format&fit=crop' },
+        { name: 'Consulta / Agendamento', description: 'Agende seu horário para avaliação ou consulta.', price: 100.00, durationMinutes: 30, imageUrl: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=2068&auto=format&fit=crop' },
       ]
     },
   ]
