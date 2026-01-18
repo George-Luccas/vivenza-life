@@ -32,7 +32,10 @@ export default async function ProfilePage() {
              <div className="flex flex-col min-h-screen pb-20">
                 {/* Profile Header */}
                 <ProfileHeader 
-                    user={user} 
+                    user={{
+                        ...user,
+                        image: user.image ?? null
+                    }} 
                     stats={stats} 
                     followers={followers} 
                     following={following} 
