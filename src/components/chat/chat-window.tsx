@@ -5,25 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { sendMessage, getMessages, markMessagesAsRead } from "@/app/_actions/chat"
-// ...
-  useEffect(() => {
-    // Poll for new messages every 2 seconds
-    const interval = setInterval(async () => {
-        // ... fetching logic ...
-    }, 2000)
 
-    // Mark as read when entering or when new messages arrive (debounced or simple effect)
-    markMessagesAsRead(conversationId)
-
-    return () => clearInterval(interval)
-  }, [conversationId]) 
-  
-  useEffect(() => {
-      // Also mark as read when messages update (to clear new incoming while open)
-      if (messages.length > 0) {
-          markMessagesAsRead(conversationId)
-      }
-  }, [messages, conversationId])
 import { formatDistanceToNow } from "date-fns"
 import { ptBR } from "date-fns/locale"
 import { Send, Image as ImageIcon, ArrowLeft } from "lucide-react"
@@ -103,6 +85,16 @@ export function ChatWindow({ conversationId, currentUser, otherUser, initialMess
           scrollRef.current.scrollTop = scrollRef.current.scrollHeight
       }
   }, [messages])
+
+  useEffect(() => {
+    markMessagesAsRead(conversationId)
+  }, [conversationId])
+
+  useEffect(() => {
+      if (messages.length > 0) {
+          markMessagesAsRead(conversationId)
+      }
+  }, [messages, conversationId])
 
   const handleSend = async () => {
       if (!inputValue.trim()) return
