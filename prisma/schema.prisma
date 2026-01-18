@@ -235,6 +235,7 @@ model Message {
 model Story {
   id        String   @id @default(cuid())
   imageUrl  String
+  caption   String?
   createdAt DateTime @default(now())
   expiresAt DateTime
   

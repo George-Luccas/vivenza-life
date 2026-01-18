@@ -17,6 +17,7 @@ export async function createStory(formData: FormData) {
     }
 
     const file = formData.get("imageFile") as File
+    const caption = formData.get("caption") as string | null
     if (!file) {
         throw new Error("Image file is required")
     }
@@ -43,6 +44,7 @@ export async function createStory(formData: FormData) {
     await prisma.story.create({
         data: {
             imageUrl,
+            caption,
             userId: session.user.id,
             expiresAt
         }
@@ -86,6 +88,7 @@ export async function getStories() {
                 select: {
                     id: true,
                     imageUrl: true,
+                    caption: true,
                     createdAt: true
                     // We could track 'viewed' status here if we had a StoryView model.
                     // For MVP, if it's in the list, it's available.

@@ -9,6 +9,7 @@ import { X, ChevronLeft, ChevronRight } from "lucide-react"
 interface Story {
     id: string
     imageUrl: string
+    caption: string | null
     createdAt: Date
 }
 
@@ -134,6 +135,12 @@ export function StoryViewer({ users, initialUserIndex, open, onOpenChange }: Sto
                         priority
                         className="object-contain" // Contain to show full image without crop
                     />
+                    
+                    {currentStory.caption && (
+                        <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent z-40">
+                             <p className="text-white text-center font-medium drop-shadow-md">{currentStory.caption}</p>
+                        </div>
+                    )}
                 </div>
 
                 {/* Controls */}

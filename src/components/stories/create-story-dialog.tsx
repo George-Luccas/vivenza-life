@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
 import { useState, useRef } from "react"
 import { Loader2, Image as ImageIcon, UploadCloud } from "lucide-react"
 import Image from "next/image"
@@ -31,6 +32,7 @@ export function CreateStoryDialog({ trigger, open: controlledOpen, onOpenChange:
   }
 
   const [file, setFile] = useState<File | null>(null)
+  const [caption, setCaption] = useState("")
   const [loading, setLoading] = useState(false)
   const [preview, setPreview] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -52,10 +54,14 @@ export function CreateStoryDialog({ trigger, open: controlledOpen, onOpenChange:
     try {
         const formData = new FormData()
         formData.append("imageFile", file)
+        if (caption) {
+            formData.append("caption", caption)
+        }
         
         await createStory(formData)
         setOpen(false)
         setFile(null)
+        setCaption("")
         setPreview(null)
     } catch (error) {
         console.error(error)
@@ -101,6 +107,17 @@ export function CreateStoryDialog({ trigger, open: controlledOpen, onOpenChange:
                 accept="image/*"
                 onChange={handleImageChange}
              />
+          </div>
+          
+          <div className="grid gap-2">
+            <Label htmlFor="story-caption">Legenda (Opcional)</Label>
+            <Textarea
+              id="story-caption"
+              placeholder="Adicione uma legenda..."
+              value={caption}
+              onChange={(e) => setCaption(e.target.value)}
+              className="resize-none"
+            />
           </div>
         </div>
         <DialogFooter>
