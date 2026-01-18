@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Service } from "@prisma/client"
 import { Clock } from "lucide-react"
 import Image from "next/image"
+import { BookingSheet } from "./booking-sheet"
 
 interface ServiceItemProps {
   service: Service
@@ -35,7 +36,9 @@ export function ServiceItem({ service }: ServiceItemProps) {
             </div>
         </div>
         <div className="pr-2">
-            <Button size="sm" variant="secondary">Reservar</Button>
+            <BookingSheet service={service} establishmentId={service.establishmentId}>
+                <Button size="sm" variant="secondary">Reservar</Button>
+            </BookingSheet>
         </div>
     </Card>
   )
