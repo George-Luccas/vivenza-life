@@ -26,17 +26,9 @@ export async function createPost(formData: FormData) {
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
 
-  // Save to public/uploads
-  const uploadDir = join(process.cwd(), "public", "uploads");
-  await mkdir(uploadDir, { recursive: true });
-
-  const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-  const filename = `${uniqueSuffix}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
-  const filepath = join(uploadDir, filename);
-
-  await writeFile(filepath, buffer);
-
-  const imageUrl = `/uploads/${filename}`;
+  const mimeType = file.type || "image/jpeg";
+  const base64 = buffer.toString("base64");
+  const imageUrl = `data:${mimeType};base64,${base64}`;
 
   await prisma.post.create({
     data: {

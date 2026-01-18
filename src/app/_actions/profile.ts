@@ -31,17 +31,16 @@ export async function updateProfile(formData: FormData) {
         const bytes = await imageFile.arrayBuffer();
         const buffer = Buffer.from(bytes);
     
-        // Save to public/uploads
-        const uploadDir = join(process.cwd(), "public", "uploads");
-        await mkdir(uploadDir, { recursive: true });
-    
-        const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-        const filename = `${uniqueSuffix}-${imageFile.name.replace(/[^a-zA-Z0-9.-]/g, "")}`;
-        const filepath = join(uploadDir, filename);
-    
-        await writeFile(filepath, buffer);
-    
-        imageUrl = `/uploads/${filename}`;
+      try {
+        const bytes = await imageFile.arrayBuffer();
+        const buffer = Buffer.from(bytes);
+        const base64 = buffer.toString("base64");
+        const mimeType = imageFile.type || "image/jpeg"; // Fallback if type is missing
+        imageUrl = `data:${mimeType};base64,${base64}`;
+      } catch (error) {
+          console.error("Error converting image to base64:", error);
+          return { error: "Failed to process image" };
+      }
       } catch (error) {
           console.error("Error uploading image:", error);
           return { error: "Failed to upload image" };
