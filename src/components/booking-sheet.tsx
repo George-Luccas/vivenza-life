@@ -46,7 +46,7 @@ export function BookingSheet({ service, establishmentId, children }: BookingShee
                 date: bookingDate
             })
 
-            toast.success("Agendamento realizado com sucesso!")
+            toast.success("Agendado com sucesso")
             setIsOpen(false)
         } catch (error) {
             console.error(error)
