@@ -1,9 +1,10 @@
 import { getEstablishmentById } from "@/app/_actions/establishments";
 import { MainLayout } from "@/components/layout/main-layout";
 import { ServiceItem } from "@/components/service-item";
+import { ProductItem } from "@/components/product-item";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { MapPin, Star, ChevronLeft } from "lucide-react";
+import { MapPin, Star, ChevronLeft, ShoppingBag } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -72,6 +73,20 @@ export default async function EstablishmentDetailsPage({ params }: Establishment
                      ))}
                  </div>
              </div>
+
+             {establishment.products.length > 0 && (
+                 <div className="space-y-6 mt-10">
+                     <h2 className="text-xl font-bold flex items-center gap-2">
+                        <span className="bg-emerald-100 text-emerald-800 p-1 rounded-full"><ShoppingBag size={16}/></span>
+                        Mini Loja - Produtos
+                     </h2>
+                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                         {establishment.products.map(product => (
+                             <ProductItem key={product.id} product={product} />
+                         ))}
+                     </div>
+                 </div>
+             )}
         </div>
       </div>
     </MainLayout>

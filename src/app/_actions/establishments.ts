@@ -21,7 +21,8 @@ export async function getEstablishmentById(id: string) {
     const establishment = await prisma.establishment.findUnique({
       where: { id },
       include: {
-        services: true
+        services: true,
+        products: true
       }
     })
     return establishment

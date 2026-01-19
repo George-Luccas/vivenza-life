@@ -106,8 +106,23 @@ model Establishment {
   
   appointments Appointment[]
   services     Service[]
+  products     Product[]
 
   @@map("establishment")
+}
+
+model Product {
+  id              String        @id @default(cuid())
+  name            String
+  description     String
+  price           Decimal       @db.Decimal(10, 2)
+  imageUrl        String?
+  establishmentId String
+  establishment   Establishment @relation(fields: [establishmentId], references: [id])
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@map("product")
 }
 
 model Service {

@@ -21,6 +21,10 @@ async function main() {
         { name: 'Limpeza de Pele Profunda', description: 'Remoção de impurezas e hidratação.', price: 150.00, durationMinutes: 60, imageUrl: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=2070&auto=format&fit=crop' },
         { name: 'Peeling de Diamante', description: 'Renovação celular para uma pele radiante.', price: 200.00, durationMinutes: 45, imageUrl: 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?q=80&w=2070&auto=format&fit=crop' },
         { name: 'Massagem Relaxante', description: 'Alívio do estresse e tensão muscular.', price: 120.00, durationMinutes: 60, imageUrl: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=2070&auto=format&fit=crop' },
+      ],
+      products: [
+        { name: 'Kit Home Care Facial', description: 'Sabonete, Tônico e Hidratante para uso diário.', price: 250.00, imageUrl: 'https://images.unsplash.com/photo-1556228552-523cd1308d2d?q=80&w=2070&auto=format&fit=crop' },
+        { name: 'Sérum de Vitamina C', description: 'Antioxidante poderoso para luminosidade.', price: 180.00, imageUrl: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=1887&auto=format&fit=crop' },
       ]
     },
     {
@@ -33,6 +37,10 @@ async function main() {
         { name: 'Corte e Escova', description: 'Renove seu visual com nossos experts.', price: 180.00, durationMinutes: 60, imageUrl: 'https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=2069&auto=format&fit=crop' },
         { name: 'Mechas Criativas', description: 'Iluminação personalizada para seu tom.', price: 450.00, durationMinutes: 180, imageUrl: 'https://images.unsplash.com/photo-1522337360705-8763d84a783a?q=80&w=2074&auto=format&fit=crop' },
         { name: 'Hidratação Profunda', description: 'Tratamento intensivo para fios saudáveis.', price: 120.00, durationMinutes: 45, imageUrl: 'https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?q=80&w=2071&auto=format&fit=crop' },
+      ],
+      products: [
+          { name: 'Máscara Reconstrutora', description: 'Recuperação total para cabelos danificados.', price: 120.00, imageUrl: 'https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?q=80&w=2070&auto=format&fit=crop' },
+          { name: 'Óleo de Argan Puro', description: 'Brilho e maciez instantâneos.', price: 85.00, imageUrl: 'https://images.unsplash.com/photo-1608248597279-f99d160bfbc8?q=80&w=1926&auto=format&fit=crop' },
       ]
     },
     {
@@ -45,7 +53,8 @@ async function main() {
         { name: 'Manicure Completa', description: 'Cutilagem e esmaltação importada.', price: 45.00, durationMinutes: 40, imageUrl: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?q=80&w=1974&auto=format&fit=crop' },
         { name: 'Pedicure Spa', description: 'Esfoliação, hidratação e esmaltação.', price: 55.00, durationMinutes: 50, imageUrl: 'https://images.unsplash.com/photo-1519014816548-bf5fe059e98b?q=80&w=2070&auto=format&fit=crop' },
         { name: 'Unha em Gel', description: 'Alongamento natural e duradouro.', price: 180.00, durationMinutes: 120, imageUrl: 'https://images.unsplash.com/photo-1632345031435-8727f6897d53?q=80&w=2070&auto=format&fit=crop' },
-      ]
+      ],
+      products: []
     },
     {
       name: 'Harmonia & Corpo',
@@ -56,6 +65,9 @@ async function main() {
       services: [
         { name: 'Drenagem Linfática', description: 'Redução de medidas e inchaço.', price: 100.00, durationMinutes: 50, imageUrl: 'https://images.unsplash.com/photo-1519823551278-64ac92734fb1?q=80&w=1974&auto=format&fit=crop' },
          { name: 'Massagem Modeladora', description: 'Modelagem do contorno corporal.', price: 110.00, durationMinutes: 50, imageUrl: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=2070&auto=format&fit=crop' },
+      ],
+      products: [
+          { name: 'Creme Redutor de Medidas', description: 'Potencialize os resultados da massagem em casa.', price: 90.00, imageUrl: 'https://images.unsplash.com/photo-1556228722-075e92620aa7?q=80&w=2070&auto=format&fit=crop' },
       ]
     },
     {
@@ -67,7 +79,8 @@ async function main() {
       services: [
         { name: 'Design de Sobrancelhas', description: 'Mapeamento facial e design personalizado.', price: 60.00, durationMinutes: 30, imageUrl: 'https://images.unsplash.com/photo-1588669462316-df27d5da9686?q=80&w=1964&auto=format&fit=crop' },
          { name: 'Extensão de Cílios Fio a Fio', description: 'Volume e alongamento natural.', price: 220.00, durationMinutes: 120, imageUrl: 'https://images.unsplash.com/photo-1588669462316-df27d5da9686?q=80&w=1964&auto=format&fit=crop' },
-      ]
+      ],
+      products: []
     },
      {
       name: 'Dermatologia Integrada',
@@ -79,12 +92,15 @@ async function main() {
         { name: 'Botox (Toxina Botulínica)', description: 'Suavização de linhas de expressão.', price: 1200.00, durationMinutes: 30, imageUrl: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070&auto=format&fit=crop' },
         { name: 'Preenchimento Labial', description: 'Volume e contorno para os lábios.', price: 1500.00, durationMinutes: 45, imageUrl: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070&auto=format&fit=crop' },
         { name: 'Consulta / Agendamento', description: 'Agende seu horário para avaliação ou consulta.', price: 100.00, durationMinutes: 30, imageUrl: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=2068&auto=format&fit=crop' },
+      ],
+      products: [
+        { name: 'Protetor Solar Facial FPS 70', description: 'Alta proteção com toque seco.', price: 89.90, imageUrl: 'https://images.unsplash.com/photo-1556228841-a3c52a41d9e2?q=80&w=2070&auto=format&fit=crop' },
       ]
     },
   ]
 
   for (const est of establishments) {
-    const { services, ...data } = est
+    const { services, products, ...data } = est as any
     const createdEst = await prisma.establishment.create({
       data: data,
     })
@@ -96,6 +112,17 @@ async function main() {
                 establishmentId: createdEst.id
             }
         })
+    }
+
+    if (products && products.length > 0) {
+        for (const product of products) {
+            await prisma.product.create({
+                data: {
+                    ...product,
+                    establishmentId: createdEst.id
+                }
+            })
+        }
     }
   }
 
