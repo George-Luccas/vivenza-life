@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { MapPin, Star, ChevronLeft, ShoppingBag } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ProductItem } from "@/components/product-item";
 import { notFound } from "next/navigation";
 
 interface EstablishmentDetailsPageProps {
@@ -66,12 +68,52 @@ export default async function EstablishmentDetailsPage({ params }: Establishment
              </div>
 
              <div className="space-y-6">
-                 <h2 className="text-xl font-bold">Serviços Disponíveis</h2>
-                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                     {establishment.services.map(service => (
-                         <ServiceItem key={service.id} service={service} />
-                     ))}
-                 </div>
+                 
+                 <Tabs defaultValue="services" className="w-full">
+                    <TabsList className="w-full justify-start h-auto p-1 bg-muted/50 rounded-xl mb-6">
+                        <TabsTrigger value="services" className="flex-1 md:flex-none rounded-lg py-2.5 px-6 data-[state=active]:bg-background data-[state=active]:shadow-sm">
+                            Serviços ({establishment.services.length})
+                        </TabsTrigger>
+                        <TabsTrigger value="store" className="flex-1 md:flex-none rounded-lg py-2.5 px-6 data-[state=active]:bg-background data-[state=active]:shadow-sm">
+                            Loja ({establishment.products.length})
+                        </TabsTrigger>
+                    </TabsList>
+
+                    <TabsContent value="services" className="space-y-6 animate-in fade-in-50 slide-in-from-bottom-2 duration-500">
+                        <h2 className="text-xl font-bold hidden md:block">Serviços Disponíveis</h2>
+                        {establishment.services.length > 0 ? (
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                {establishment.services.map(service => (
+                                    <ServiceItem key={service.id} service={service} />
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="text-center py-10 text-muted-foreground border border-dashed rounded-xl">
+                                <p>Nenhum serviço disponível no momento.</p>
+                            </div>
+                        )}
+                    </TabsContent>
+
+                    <TabsContent value="store" className="space-y-6 animate-in fade-in-50 slide-in-from-bottom-2 duration-500">
+                         <div className="flex items-center justify-between">
+                            <h2 className="text-xl font-bold hidden md:block">Produtos da Loja</h2>
+                         </div>
+                         
+                        {establishment.products.length > 0 ? (
+                            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                                {establishment.products.map(product => (
+                                    <ProductItem key={product.id} product={product} />
+                                ))}
+                            </div>
+                        ) : (
+                             <div className="text-center py-10 text-muted-foreground border border-dashed rounded-xl flex flex-col items-center gap-2">
+                                <ShoppingBag className="h-10 w-10 opacity-20" />
+                                <p>A loja está vazia no momento.</p>
+                            </div>
+                        )}
+                    </TabsContent>
+                 </Tabs>
+
              </div>
 
         </div>
