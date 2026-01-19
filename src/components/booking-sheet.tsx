@@ -71,17 +71,17 @@ export function BookingSheet({ service, establishmentId, children }: BookingShee
 
                 <div className="flex flex-col gap-6 py-6">
                     {/* Calendar */}
-                    <div className="flex flex-col gap-2">
-                        <h3 className="font-medium flex items-center gap-2">
-                             <CalendarIcon className="w-4 h-4 text-primary" />
+                    <div className="flex flex-col gap-3">
+                        <h3 className="font-medium flex items-center gap-2 text-rose-700">
+                             <CalendarIcon className="w-4 h-4" />
                              Selecione a Data
                         </h3>
-                        <div className="rounded-md border bg-muted/20 self-center">
+                        <div className="flex justify-center w-full">
                             <Calendar
                                 mode="single"
                                 selected={date}
                                 onSelect={setDate}
-                                className="rounded-md border"
+                                className="rounded-xl border-none shadow-sm bg-white dark:bg-card p-4 w-fit"
                                 disabled={(date) => date < new Date() || date < new Date("1900-01-01")}
                                 locale={ptBR}
                             />
@@ -89,19 +89,19 @@ export function BookingSheet({ service, establishmentId, children }: BookingShee
                     </div>
 
                     {/* Time Slots */}
-                    <div className="flex flex-col gap-2">
-                        <h3 className="font-medium flex items-center gap-2">
-                             <Clock className="w-4 h-4 text-primary" />
+                    <div className="flex flex-col gap-3">
+                        <h3 className="font-medium flex items-center gap-2 text-rose-700">
+                             <Clock className="w-4 h-4" />
                              Selecione o Horário
                         </h3>
-                        <div className="grid grid-cols-4 gap-2">
+                        <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
                             {timeSlots.map((time) => (
                                 <Button
                                     key={time}
-                                    variant={selectedTime === time ? "default" : "outline"}
+                                    variant="outline"
                                     className={cn(
-                                        "w-full h-9",
-                                        selectedTime === time && "bg-rose-500 hover:bg-rose-600 border-none"
+                                        "w-full rounded-full border-rose-200 text-rose-900 hover:bg-rose-50 hover:text-rose-700 transition-all",
+                                        selectedTime === time && "bg-rose-500 text-white border-rose-500 hover:bg-rose-600 hover:text-white shadow-md shadow-rose-200"
                                     )}
                                     onClick={() => setSelectedTime(time)}
                                 >
